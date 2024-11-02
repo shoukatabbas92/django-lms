@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Available Courses</h2>
+<div class="course-list">
+    {% for course in courses %}
+        <div class="course-item">
+            <h3><a href="{% url 'course_detail' course.id %}">{{ course.title }}</a></h3>
+            <p>{{ course.description|truncatewords:20 }}</p>
+            <p><strong>Instructor:</strong> {{ course.instructor.username }}</p>
+            <a href="{% url 'enroll_in_course' course.id %}">Enroll</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

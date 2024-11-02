@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ course.title }}</h2>
+<p>{{ course.description }}</p>
+<p><strong>Instructor:</strong> {{ course.instructor.username }}</p>
+<p><strong>Start Date:</strong> {{ course.start_date }}</p>
+<p><strong>End Date:</strong> {{ course.end_date }}</p>
+<p><strong>Enrollment Limit:</strong> {{ course.enrollment_limit }}</p>
+
+{% if user.is_authenticated and user.role == 'instructor' %}
+    <a href="{% url 'create_assignment' course.id %}">Create Assignment</a>
+    <a href="{% url 'create_quiz' course.id %}">Create Quiz</a>
+{% endif %}
+
+{% if user.is_authenticated and user.role == 'student' %}
+    <a href="{% url 'enroll_in_course' course.id %}">Enroll in Course</a>
+{% endif %}
+
+<h3>Assignments</h3>
+<ul>
+    {% for assignment in course.assignments.all %}
+        <li><a href="{% url 'assignment_detail' assignment.id %}">{{ assignment.title }}</a></li>
+    {% endfor %}
+</ul>
+
+<h3>Quizzes</h3>
+<ul>
+    {% for quiz in course.quizzes.all %}
+        <li><a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
